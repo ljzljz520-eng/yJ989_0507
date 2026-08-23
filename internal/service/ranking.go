@@ -2,7 +2,6 @@ package service
 
 import (
 	"fmt"
-	"sort"
 
 	"activityregistration/internal/domain"
 	"activityregistration/internal/exporter"
@@ -23,10 +22,7 @@ func (service *Service) rankedRegistrations(eventID string, status domain.Regist
 		}
 		filtered = append(filtered, registration)
 	}
-	sort.Slice(filtered, func(left, right int) bool {
-		return filtered[left].Score > filtered[right].Score
-	})
-	return filtered, nil
+	return domain.RankRegistrations(filtered), nil
 }
 
 func (service *Service) ListRegistrations(eventID string, options ListOptions) (ListResult, error) {
