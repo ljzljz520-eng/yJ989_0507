@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "metrics": {
+    "production_loc": 2300,
+    "production_files": 24,
+    "production_packages": 8,
+    "test_files": 11,
+    "production_functions": 171,
+    "decision_points": 324
+  },
+  "persistence": {
+    "module": "go.etcd.io/bbolt",
+    "entities": [
+      "Event",
+      "Registration",
+      "ReviewRecord",
+      "AuditEvent",
+      "Batch",
+      "ExportJob"
+    ],
+    "reopen_test": "TestPersistenceSurvivesReopen"
+  },
+  "workflows": [
+    {
+      "steps": [
+        "create event",
+        "submit registration",
+        "review registration",
+        "close and archive event"
+      ],
+      "test": "TestWorkflowCreateReviewArchive"
+    },
+    {
+      "steps": [
+        "search events",
+        "update event details",
+        "publish event",
+        "read published event"
+      ],
+      "test": "TestWorkflowSearchUpdatePublish"
+    },
+    {
+      "steps": [
+        "import CSV rows",
+        "validate registrations",
+        "persist accepted rows",
+        "export registration report"
+      ],
+      "test": "TestWorkflowImportReport"
+    }
+  ]
+}
